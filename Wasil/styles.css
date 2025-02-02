@@ -1,0 +1,130 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.title {
+    text-align: center;
+    margin-top: 20px;
+    position: fixed;
+    align-self: center;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.button-sidebar {
+    width: 20%;
+    padding: 20px;
+    padding-top: 12%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f8f9fa;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.main-content {
+    margin-top: 100px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+}
+
+
+.graph-result {
+    width: 70%;
+    padding: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    position: relative;
+    width: 100%;
+}
+
+.graph-option {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+#resultText{
+    margin-bottom: 0;
+    margin-top: 20;
+}
+
+/* Loading Spinner */
+#loadingSpinner {
+    display: none;
+    width: 3rem;
+    height: 3rem;
+}
+
+
+/* Buttons */
+
+.btn.btn-info{
+    margin-right: 20px;
+}
+
+.btn.btn-primary, .btn.btn-secondary{
+    background-color: #6c757d;
+    border: none;
+}
+
+.btn.btn-primary:hover, .btn.btn-secondary:hover, .form-control-file:hover{
+    opacity: 0.8;
+    background-color: #2F4F4F;
+}
+
+
+/* Form input file */
+#form-groups{
+    margin-bottom: 0;
+}
+.file-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.form-control-file {
+    margin-bottom: 0;
+    font-size: 16px;
+    color: white;
+    background-color: #6c757d;
+    border: none;
+    display: inline-block;
+    padding: 6px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+/* Graphs */
+#binaryResultGraph, #multiTypeResultGraph {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 10px;
+}

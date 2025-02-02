@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main-Page</title>
+    <link href="./styles.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!--Main screen-->
+    <div class="screen" id="screen">
+        <!-- Title -->
+        <h1 class="title">Network Traffic Classification Dashboard</h1>
+        <div class="content">
+            <!-- Left Sidebar -->
+            <div class="button-sidebar">
+                <form id="uploadForm" method="post" action="/upload" enctype="multipart/form-data">
+                    <div class="form-group", id='form-groups'>
+                        <label for="file-input" class="form-control-file">Choose File</label>
+                        <input type="file" class="file-input" id="file-input">
+                    </div>
+                </form>
+                <button id="classifyButton" class="btn btn-primary mt-3">Start Classification</button>
+                <div class="spinner-border text-primary mt-3" id="loadingSpinner" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="card-body">
+                    <button id="voiceCommandButton" class="btn btn-secondary"><i class="fas fa-microphone"></i> Voice Command</button>
+                </div>
+            </div>
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Graph Result -->
+                <div class="graph-result">
+                    <div class="card-body">
+                        <p id="resultText"></p>
+                        <img id="binaryResultGraph" src="" alt="Binary Classification Result Graph" style="display:none; width: 80%;">
+                        <img id="multiTypeResultGraph" src="" alt="Multi-Type Classification Result Graph" style="display:none; width: 80%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <footer>
+            <div class="graph-option">
+                <button id="binaryGraphButton" class="btn btn-info">Show Binary Graph</button>
+                <button id="multiTypeGraphButton" class="btn btn-info">Show Multi-Type Graph</button>
+            </div>
+            <p>&copy; 2024 Network Traffic Classification. All rights reserved.</p>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#file-input').on('change', function(event) {
+                var formData = new FormData();
+                formData.append('file', event.target.files[0]);
+                $.ajax({
+                    url: '/upload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        Swal.fire('Success', 'File successfully uploaded', 'success');
+                        $('#resultCard').hide();
+                    },
+                    error: function() {
+                        Swal.fire('Error', 'There was an error uploading the file', 'error');
+                    }
+                });
+            });
+
+            $('#classifyButton').on('click', function() {
+                $('#loadingSpinner').show(); // Show the loading spinner
+                $.ajax({
+                    url: '/classify',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    success: function(response) {
+                        $('#loadingSpinner').hide(); // Hide the loading spinner
+                        $('#resultCard').show();
+                        $('#resultText').text(response.result);
+                        $('#binaryResultGraph').attr('src', response.binaryGraphPath).show();
+                        $('#multiTypeResultGraph').attr('src', response.multiTypeGraphPath).hide();
+                    },
+                    error: function() {
+                        $('#loadingSpinner').hide(); // Hide the loading spinner
+                        Swal.fire('Error', 'There was an error classifying the data', 'error');
+                    }
+                });
+            });
+
+            $('#binaryGraphButton').on('click', function() {
+                $('#binaryResultGraph').show();
+                $('#multiTypeResultGraph').hide();
+            });
+
+            $('#multiTypeGraphButton').on('click', function() {
+                $('#binaryResultGraph').hide();
+                $('#multiTypeResultGraph').show();
+            });
+
+            $('#voiceCommandButton').on('click', function() {
+                if ('webkitSpeechRecognition' in window) {
+                    let recognition = new webkitSpeechRecognition();
+                    recognition.lang = 'en-US';
+                    recognition.onresult = function(event) {
+                        let voiceCommand = event.results[0][0].transcript;
+                        handleVoiceCommand(voiceCommand);
+                    };
+                    recognition.start();
+                } else {
+                    alert('Voice recognition not supported in this browser. Please use Chrome.');
+                }
+            });
+
+            function handleVoiceCommand(command) {
+                $('#loadingSpinner').show(); // Show the loading spinner for voice commands
+                $.ajax({
+                    url: '/process_voice_command',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ command: command }),
+                    success: function(response) {
+                        $('#loadingSpinner').hide(); // Hide the loading spinner
+                        $('#resultCard').show();
+                        $('#resultText').text(response.result);
+                        $('#binaryResultGraph').attr('src', response.binaryGraphPath).show();
+                        $('#multiTypeResultGraph').attr('src', response.multiTypeGraphPath).hide();
+                        playVoiceResponse(response.voiceResponseUrl);
+                    },
+                    error: function() {
+                        $('#loadingSpinner').hide(); // Hide the loading spinner
+                        Swal.fire('Error', 'There was an error processing the voice command', 'error');
+                    }
+                });
+            }
+
+            function playVoiceResponse(url) {
+                let audio = new Audio(url);
+                audio.play();
+            }
+        });
+    </script>
+</body>
+</html>
