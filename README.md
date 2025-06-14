@@ -43,7 +43,7 @@ To get this project up and running, follow these simple steps:
 
 Clone the Repository:
 
-git clone https://github.com/your-username/your-repo-name.git
+git clone [https://github.com/MohWasil/Network-Traffic-Classification-Using-CNN-LSTM.git](https://github.com/MohWasil/Network-Traffic-Classification-Using-CNN-LSTM.git)
 cd your-repo-name
 
 (Replace your-username/your-repo-name.git with your actual GitHub repository details.)
