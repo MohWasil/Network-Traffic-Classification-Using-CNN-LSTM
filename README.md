@@ -44,9 +44,7 @@ To get this project up and running, follow these simple steps:
 Clone the Repository:
 
 git clone [https://github.com/MohWasil/Network-Traffic-Classification-Using-CNN-LSTM.git](https://github.com/MohWasil/Network-Traffic-Classification-Using-CNN-LSTM.git)
-cd your-repo-name
-
-(Replace your-username/your-repo-name.git with your actual GitHub repository details.)
+<br>cd your-repo-name
 
 ## Install Dependencies:
 All necessary Python libraries are listed in requirements.txt.
