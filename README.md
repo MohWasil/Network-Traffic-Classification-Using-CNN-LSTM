@@ -50,14 +50,14 @@ cd your-repo-name
 
 ## Install Dependencies:
 All necessary Python libraries are listed in requirements.txt.
-
+`
 pip install -r requirements.txt
-
+`
 ## Model Availability:
 The three pre-trained deep learning models (Binary Classification CNN, Attack Type Classification CNN, and Application Type Classification LSTM) are included within the project's directory structure (e.g., in a models/ folder or similar). These models are ready for immediate use by the Flask web application.
 
 Run the Flask Application:
-Instructions on how to run your Flask app (e.g., python app.py).
+Instructions on how to run your Flask app `(python app.py)`.
 
 ## License
 This project is free to use and distributed under the MIT License. See the LICENSE file in the repository for full details.
