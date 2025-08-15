@@ -1,4 +1,6 @@
 # Multi-Dimensional Network Traffic Classification 🌐📊
+**Goal:** Real-time detection and classification pipeline to protect organizational networks and identify application use.
+
 This repository hosts the implementation of a Deep Learning-based framework for multi-dimensional network traffic classification, designed to identify benign vs. malicious traffic, specific attack types, and various application types. The project integrates three pre-trained deep learning models within a Flask web application, allowing users to upload new network traffic datasets for real-time classification and analysis.
 
 # Methodology: Step-by-Step Project Usage
