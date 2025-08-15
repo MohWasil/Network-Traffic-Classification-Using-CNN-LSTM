@@ -10,6 +10,12 @@ The core functionality of this project revolves around a sophisticated classific
 
 Users initiate the process by uploading a raw network traffic dataset (e.g., a CSV file) to the Flask web application. This dataset contains flow-based features similar to those used during model training.
 
+**Deployment (in progress)**
+
+Real-time stack: Ubuntu + Docker + Kafka for streaming ingestion, Gradio for demo UI, and planned monitoring/logging (Prometheus/Grafana).
+
+Next steps: optimize inference latency, add model explainability (SHAP), monitoring for concept drift, and rigorous security validation.
+
 ## Automated Preprocessing: ⚙️✨
 
 Upon upload, the system applies the identical, rigorous preprocessing pipeline that was used to train the deep learning models. This includes:
@@ -24,15 +30,15 @@ Where applicable, data augmentation techniques are applied to ensure robust and 
 
 ## Initial Binary Classification (Normal vs. Malicious): 🚦
 
-The preprocessed dataset is first fed into the Binary Classification CNN model. This model's primary task is to categorize each network flow as either Normal ✅ (benign) or Abnormal 🚨 (malicious). This serves as the critical first layer of defense and categorization.
+The preprocessed dataset is first fed into the Binary Classification CNN model `99.7%` accuracy. This model's primary task is to categorize each network flow as either Normal ✅ (benign) or Abnormal 🚨 (malicious). This serves as the critical first layer of defense and categorization.
 
 Conditional Multi-Class Classification: 🔄
 
 Based on the output of the binary classification, the system intelligently routes the traffic for further, more granular analysis:
 
-If a flow is classified as Normal ✅: It is then passed to the Application Type Classification LSTM model 📱. This model specializes in identifying the specific application responsible for the traffic (e.g., HTTP, YouTube, Spotify, etc.), providing insights into network usage and legitimate activity.
+If a flow is classified as Normal ✅: It is then passed to the Application Type Classification LSTM model `96.1%` accuracy 📱. This model specializes in identifying the specific application responsible for the traffic (e.g., HTTP, YouTube, Spotify, etc.), providing insights into network usage and legitimate activity.
 
-If a flow is classified as Abnormal 🚨: It is then directed to the Attack Type Classification CNN model 🛡️. This model is trained to pinpoint the exact category of attack (e.g., DoS Hulk, PortScan, DDoS, XSS), enabling precise threat identification and response.
+If a flow is classified as Abnormal 🚨: It is then directed to the Attack Type Classification CNN model `99.02%` accuracy 🛡️. This model is trained to pinpoint the exact category of attack (e.g., DoS Hulk, PortScan, DDoS, XSS), enabling precise threat identification and response.
 
 ## Results and Analysis: 📈🔍
 
